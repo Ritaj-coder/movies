@@ -18,7 +18,7 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates>{
     HomeScreen(),
     SearchScreen(),
     BrowseScreen(),
-    WatchListScreen()
+    WatchlistScreen()
   ];
 
   void changeSelectedIndex(int newindex){

@@ -7,6 +7,7 @@ import 'package:movies/data/model/Response/AddMoviesListResponse.dart';
 import 'package:movies/data/model/Response/DetailsResponse.dart';
 import 'package:movies/data/model/Response/MoviesDetailsResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
+import 'package:movies/data/model/Response/SearchResponse.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
 
 class ApiManager {
@@ -76,7 +77,17 @@ class ApiManager {
   }
 
 
-
+  static Future<SearchResponse> search(String title) async {
+    Uri url = Uri.https(ApiName.baseURL, EndPoints.search);
+    try {
+      var response = await http.get(url);
+      var bodyString = response.body;
+      var json = jsonDecode(bodyString);
+      return SearchResponse.fromJson(json);
+    } catch (e) {
+      throw e;
+    }
+  }
   static Future<AddMoviesListResponse> getAllMoviesList ()async{
  Uri url = Uri.https(ApiName.baseURL,EndPoints.movieslist);
 
