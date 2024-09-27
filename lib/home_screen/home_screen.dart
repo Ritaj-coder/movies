@@ -4,6 +4,7 @@ import 'package:movies/browse_tab/MoviesListDetails/cubit/movie_details_cubit.da
 import 'package:movies/browse_tab/MoviesListDetails/cubit/movie_details_state.dart';
 import 'package:movies/home_screen/cubit/home_tab_cubit.dart';
 import 'package:movies/home_screen/cubit/home_tab_state.dart';
+import 'package:movies/home_screen/home_details/Movie_details.dart';
 import 'package:movies/home_screen/new_release_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/home_screen/recommendedormorelikesection.dart';
@@ -44,6 +45,7 @@ class HomeScreen extends StatelessWidget {
                         Icons.play_arrow,
                       ),
                       onPressed: () {
+
                       },
                     ),
                   ),
@@ -70,7 +72,6 @@ class HomeScreen extends StatelessWidget {
                                 child:IconButton(
                                   onPressed: ()
                                   {
-                                    ///watchlist
                                   },
                                   icon: Icon(
                                     Icons.bookmark,
@@ -86,7 +87,13 @@ class HomeScreen extends StatelessWidget {
                             child: Container(
                                 width: 11,
                                 height: 11,
-                                child:  Icon(Icons.add,color: AppColors.whiteColor,)
+                                child:  IconButton(
+                                  onPressed: (){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) =>  MovieDetails()));
+                                  },
+                                    icon:  Icon(Icons.add,color: AppColors.whiteColor,),)
                             ),
                           ),
                         ],

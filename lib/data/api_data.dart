@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:movies/data/api_name.dart';
 import 'package:movies/data/endpoints.dart';
 import 'package:movies/data/model/Response/AddMoviesListResponse.dart';
+import 'package:movies/data/model/Response/DetailsResponse.dart';
 import 'package:movies/data/model/Response/MoviesDetailsResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
 
 class ApiManager {
+  static const String apiKey = '32e5008547e7606b55f5d7262aa125b2';
 
   static Future<NewRealeasesResponse> getAllNewRealeases({required String page}) async {
     Uri url = Uri.https(ApiName.baseURL,EndPoints.newRealeases);
@@ -26,7 +28,6 @@ class ApiManager {
       rethrow;
     }
   }
-
 
   static Future<TopratedResponse> getAllTopRated({required String page}) async {
     Uri url = Uri.https(ApiName.baseURL,EndPoints.topRated);
@@ -46,6 +47,34 @@ class ApiManager {
       rethrow;
     }
   }
+
+  static Future<DetailsResponse> getMovieDetails() async {
+    int movieId = 570;
+
+    Uri url = Uri.https(ApiName.baseURL,EndPoints.movieDetails(movieId),
+        {
+          'api_key': apiKey,
+          'language': 'en-US'
+        });
+
+    // Log or print the full URL to ensure correctness
+    print("Constructed URL: $url");
+
+    try {
+      var response = await http.get(url);
+
+      if (response.statusCode != 200) {
+        throw Exception("Failed to load movie details: ${response.statusCode}");
+      }
+      var bodyString = response.body;
+      var json = jsonDecode(bodyString); // JSON response
+      return DetailsResponse.fromJson(json); // object
+    } catch (e) {
+      print("Error occurred: $e");
+      throw e;
+    }
+  }
+
 
 
   static Future<AddMoviesListResponse> getAllMoviesList ()async{
