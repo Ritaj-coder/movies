@@ -35,19 +35,18 @@ class BrowseDetails extends StatelessWidget {
                 ),
               ),
               body: state is MovieOfCategoriesSuccessState ?
-              Container(
-                child: ListView.builder(
-                  itemCount: state.moviesdetailsResponse.results!.length,
-                  itemBuilder: (context,index){
 
-                    final movie = state.moviesdetailsResponse.results![index];
-                    if (movie.genreIds!.contains(genreId)) {
-                      return MoviesContent(moviesdata: movie);
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
+              ListView.builder(
+                itemCount: state.moviesdetailsResponse.results!.length,
+                itemBuilder: (context,index){
+
+                  final movie = state.moviesdetailsResponse.results![index];
+                  if (movie.genreIds!.contains(genreId)) {
+                    return MoviesContent(moviesdata: movie);
+                  } else {
+                    return Container();
+                  }
+                },
               ) :
                   Center(
                     child: CircularProgressIndicator(

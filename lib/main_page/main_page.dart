@@ -21,37 +21,33 @@ HomeScreenViewModel viewModel = HomeScreenViewModel();
       bloc: viewModel,
       builder: ( context, state) {
      return Scaffold(
-       bottomNavigationBar: BottomAppBar(
-         shape: CircularNotchedRectangle(),
-         notchMargin: 8,
-         child: BottomNavigationBar(
-           currentIndex: viewModel.selectedindex,
-           onTap: (index){
-             viewModel.changeSelectedIndex(index);
-           },
-           type: BottomNavigationBarType.fixed,
-           backgroundColor: AppColors.greyColor,
-           selectedItemColor: AppColors.orangeColor,
-           unselectedItemColor: AppColors.whiteColor,
-           items: [
-             BottomNavigationBarItem(
-                 label: "HOME",
-                 icon: Icon(Icons.home,size: 30,)
-             ),
-             BottomNavigationBarItem(
-                 label: "SEARCH",
-                 icon: Icon(Icons.search,size: 30,)
-             ),
-             BottomNavigationBarItem(
-                 label: "BROWSE",
-                 icon: Icon(Icons.movie_creation,size: 30,)
-             ),
-             BottomNavigationBarItem(
-                 label: "WATCHLIST",
-                 icon: Icon(Icons.list_alt_sharp,size: 30,)
-             ),
-           ],
-         ),
+       bottomNavigationBar: BottomNavigationBar(
+         currentIndex: viewModel.selectedindex,
+         onTap: (index){
+           viewModel.changeSelectedIndex(index);
+         },
+         type: BottomNavigationBarType.fixed,
+         backgroundColor: AppColors.greyColor,
+         selectedItemColor: AppColors.orangeColor,
+         unselectedItemColor: AppColors.whiteColor,
+         items: [
+           BottomNavigationBarItem(
+               label: "HOME",
+               icon: Icon(Icons.home,size: 30,)
+           ),
+           BottomNavigationBarItem(
+               label: "SEARCH",
+               icon: Icon(Icons.search,size: 30,)
+           ),
+           BottomNavigationBarItem(
+               label: "BROWSE",
+               icon: Icon(Icons.movie_creation,size: 30,)
+           ),
+           BottomNavigationBarItem(
+               label: "WATCHLIST",
+               icon: Icon(Icons.list_alt_sharp,size: 30,)
+           ),
+         ],
        ),
        body: viewModel.tabs[viewModel.selectedindex],
 
