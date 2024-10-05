@@ -1,4 +1,3 @@
-
 import 'package:movies/data/api_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/data/model/Response/DetailsResponse.dart';
@@ -16,10 +15,10 @@ class MovieDetailsViewModel extends Cubit<MovieDetailsStates>{
   num? vote ;
   String? poster_image;
   String? backdrop_path;
-  void getMovieDetails() async {
+  void getMovieDetails(int movieId) async {
     try{
       emit(MovieDetailsLoadingState());
-      var response = await ApiManager.getMovieDetails();
+      var response = await ApiManager.getMovieDetails(movieId);
       if (response.success == 'false'){
         emit(MovieDetailsErrorState(errorMessage: response.status_message!));
         return;
@@ -36,9 +35,9 @@ class MovieDetailsViewModel extends Cubit<MovieDetailsStates>{
           year = releaseDate.year;
         }
         if (response.runtime != null) {
-          int totalMinutes = response.runtime!.toInt();  // Ensure runtime is treated as an int
-          hours = totalMinutes ~/ 60;  // Integer division for hours
-          minutes = totalMinutes % 60; // Remainder for minutes
+          int totalMinutes = response.runtime!.toInt();
+          hours = totalMinutes ~/ 60;
+          minutes = totalMinutes % 60;
         }
         genres = response.genres ?? [];
         detailsList?.add(response) ;

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:movies/home_screen/cubit/home_tab_cubit.dart';
 import 'package:movies/home_screen/cubit/home_tab_state.dart';
@@ -48,7 +49,7 @@ class _NewreleasessectionState extends State<Newreleasessection> {
               itemCount: newRealeasesList.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return Releaseitem(newRealease: newRealeasesList[index]);
+                return Releaseitem(newRealease: newRealeasesList[index],page: newRealeasesList[index].id!,);
               },
             );
           }

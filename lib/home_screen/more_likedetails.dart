@@ -2,18 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_colors.dart';
 import 'package:readmore/readmore.dart';
-import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 
-class NewReleaseDetails extends StatelessWidget {
+import '../data/model/Response/MoreLikeThisResponse.dart';
 
-  static const String routename = 'newrelease' ;
+
+class MoreLikeDetails extends StatelessWidget {
+
+  static const String routename = 'morelike' ;
 
   static String baseUrl="https://image.tmdb.org/t/p/original";
 
   @override
   Widget build(BuildContext context) {
 
-    var args = ModalRoute.of(context)!.settings.arguments as NewRealeases;
+    var args = ModalRoute.of(context)!.settings.arguments as Results ;
 
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,5 @@
 
+import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
 
@@ -12,10 +13,12 @@ class HomeTabNewRealeasesErrorState extends HomeTabStates {
   String errorMessage;
   HomeTabNewRealeasesErrorState({required this.errorMessage});
 }
+
 class HomeTabNewRealeasesSuccessState extends HomeTabStates {
   NewRealeasesResponse newRealeasesResponse;
   HomeTabNewRealeasesSuccessState({required this.newRealeasesResponse});
 }
+
 class HomeTabNTopRatedLoadingState extends HomeTabStates {}
 
 class HomeTabTopRatedErrorState extends HomeTabStates {
@@ -25,4 +28,15 @@ class HomeTabTopRatedErrorState extends HomeTabStates {
 class HomeTabTopRatedSuccessState extends HomeTabStates {
   TopratedResponse topratedResponse;
   HomeTabTopRatedSuccessState({required this.topratedResponse});
+}
+
+class HomeTabMoreLikeLoadingState extends HomeTabStates {}
+
+class HomeTabMoreLikeErrorState extends HomeTabStates {
+  String errorMessage;
+  HomeTabMoreLikeErrorState({required this.errorMessage});
+}
+class HomeTabMoreLikeSuccessState extends HomeTabStates {
+  MoreLikerResponse moreLikerResponse;
+  HomeTabMoreLikeSuccessState({required this.moreLikerResponse});
 }

@@ -1,25 +1,27 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
-import 'package:movies/home_screen/newrelease_details.dart';
+
+import 'home_details/Movie_details.dart';
 
 class Releaseitem extends StatelessWidget {
-
   static String baseUrl="https://image.tmdb.org/t/p/original";
-
   NewRealeases newRealease;
-
-  Releaseitem({required this.newRealease});
+  int page  ;
+  Releaseitem({required this.newRealease, required this.page});
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        InkWell(
+        GestureDetector(
           onTap: (){
-            Navigator.pushNamed(context, NewReleaseDetails.routename,
-            arguments: newRealease);
+            Navigator.pushNamed(
+              context,
+              MovieDetails.routename,
+              arguments: newRealease.id,  // Pass the dynamic movieId here
+            );
           },
           child: Container(
             margin: EdgeInsets.fromLTRB(21, 10, 0, 0),
@@ -50,7 +52,6 @@ class Releaseitem extends StatelessWidget {
               child:IconButton(
                 onPressed: ()
                 {
-                ///watchlist
 
                 },
                 icon: Icon(
@@ -67,7 +68,11 @@ class Releaseitem extends StatelessWidget {
           child: Container(
               width: 11,
               height: 11,
-              child:  Icon(Icons.add,color: AppColors.whiteColor,)
+              child:  InkWell(
+                  onTap: (){
+                  },
+                  child: Icon(Icons.add,color: AppColors.whiteColor,)
+              )
           ),
         ),
       ],

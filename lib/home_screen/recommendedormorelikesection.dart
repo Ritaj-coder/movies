@@ -5,6 +5,8 @@ import 'package:movies/home_screen/cubit/home_tab_cubit.dart';
 import 'package:movies/home_screen/cubit/home_tab_state.dart';
 import 'package:movies/home_screen/recommended_ormorelikeitem.dart';
 
+import '../app_colors.dart';
+
 class Recomendedormorelikesection extends StatefulWidget {
   const Recomendedormorelikesection({super.key});
 
@@ -18,7 +20,6 @@ class _RecomendedormorelikesectionState extends State<Recomendedormorelikesectio
   void initState() {
     super.initState();
     context.read<HomeTabCubit>().getAllTopRated();
-
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -34,11 +35,16 @@ class _RecomendedormorelikesectionState extends State<Recomendedormorelikesectio
         builder: (context, state) {
           if (state is HomeTabNTopRatedLoadingState) {
             return Center(child: CircularProgressIndicator());
-          } else if (state is HomeTabTopRatedErrorState) {
+          }
+          else if (state is HomeTabTopRatedErrorState) {
             return Center(child: Text(state.errorMessage));
-          } else if (state is HomeTabTopRatedSuccessState) {
+          }
+          else if (state is HomeTabTopRatedSuccessState) {
             final newTopRatedList = context.read<HomeTabCubit>().topRatedList;
-
+            print("Fetched list length: ${newTopRatedList?.length}");
+            if (newTopRatedList!.isEmpty) {
+              return Center(child: Text('No releases available',style: TextStyle(color: AppColors.whiteColor),));
+            }
             return ListView.builder(
               controller: _scrollController,
               itemCount: newTopRatedList.length,

@@ -9,4 +9,8 @@ class EndPoints {
   static String movieDetails(int movieId) {
     return '/3/movie/$movieId?api_key=YOUR_API_KEY&language=en-US';
   }
+  late int movieID ;
+  static String moreLike(int movieID) {
+    return '/3/movie/$movieID/similar';
+    }
   }

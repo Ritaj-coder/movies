@@ -1,5 +1,6 @@
 
 import 'package:movies/data/api_data.dart';
+import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
@@ -11,6 +12,7 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
   List<NewRealeases> newRealeasesList = [];
   List<TopRated> topRatedList = [];
   int currentPage = 1; // Start from page 1
+  List<Results> moreLikeList = [];
 
   Future<void> getAllNewRealeases() async {
     try {
@@ -44,6 +46,22 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
       }
     } catch (e) {
       emit(HomeTabTopRatedErrorState(errorMessage: e.toString()));
+    }
+  }
+  Future<void> getAllMoreLike(int movieID) async {
+    emit(HomeTabMoreLikeLoadingState());
+    try {
+      MoreLikerResponse response = await ApiManager.getAllMoreLike(movieID: movieID, page: currentPage.toString());
+      if (response.success == false) {
+        emit(HomeTabMoreLikeErrorState(errorMessage: response.statusMessage!));
+        return;
+      } else {
+        moreLikeList = response.results ?? [];
+        emit(HomeTabMoreLikeSuccessState(moreLikerResponse: response));
+        currentPage++;
+      }
+    } catch (e) {
+      emit(HomeTabMoreLikeErrorState(errorMessage: e.toString()));
     }
   }
 }

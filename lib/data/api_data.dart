@@ -5,6 +5,7 @@ import 'package:movies/data/api_name.dart';
 import 'package:movies/data/endpoints.dart';
 import 'package:movies/data/model/Response/AddMoviesListResponse.dart';
 import 'package:movies/data/model/Response/DetailsResponse.dart';
+import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
 import 'package:movies/data/model/Response/MoviesDetailsResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:movies/data/model/Response/SearchResponse.dart';
@@ -49,16 +50,13 @@ class ApiManager {
     }
   }
 
-  static Future<DetailsResponse> getMovieDetails() async {
-    int movieId = 570;
-
+  static Future<DetailsResponse> getMovieDetails(int movieId) async {
     Uri url = Uri.https(ApiName.baseURL,EndPoints.movieDetails(movieId),
         {
           'api_key': apiKey,
-          'language': 'en-US'
-        });
+          'language': 'en-US',
 
-    // Log or print the full URL to ensure correctness
+        });
     print("Constructed URL: $url");
 
     try {
@@ -76,7 +74,6 @@ class ApiManager {
     }
   }
 
-
   static Future<SearchResponse> search(String title) async {
     Uri url = Uri.https(ApiName.baseURL, EndPoints.search);
     try {
@@ -88,6 +85,8 @@ class ApiManager {
       throw e;
     }
   }
+
+
   static Future<AddMoviesListResponse> getAllMoviesList ()async{
  Uri url = Uri.https(ApiName.baseURL,EndPoints.movieslist);
 
@@ -125,6 +124,30 @@ class ApiManager {
     }
     catch(e){
       throw e ;
+    }
+  }
+
+  static Future<MoreLikerResponse> getAllMoreLike({required int movieID, required String page}) async {
+    Uri url = Uri.https(ApiName.baseURL, EndPoints.moreLike(movieID), {
+      'api_key': apiKey,
+      'language': 'en-US',
+      'page': page,
+    });
+
+    print("Constructed URL ( More Like ) : $url");
+    try {
+      var response = await http.get(url);
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        return MoreLikerResponse.fromJson(json);
+      } else {
+        // Handle non-200 responses
+        throw Exception("Failed to load data");
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

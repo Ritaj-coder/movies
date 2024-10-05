@@ -37,8 +37,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreen.routename ,
+      onGenerateRoute: (settings) {
+        if (settings.name == MovieDetails.routename) {
+          final movieId = settings.arguments as int;  // Get the movieId from arguments
+          return MaterialPageRoute(
+            builder: (context) {
+              return MovieDetails(movieId: movieId);  // Pass the movieId here
+            },
+          );
+        }
+        return null;  // Fallback route handling
+      },
       routes: {
-      MovieDetails.routename : (context) => MovieDetails(),
        SplashScreen.routename : (context) => SplashScreen(),
        MainPage.routename : (context) => MainPage(),
         BrowseDetails.routename : (context) => BrowseDetails(),
