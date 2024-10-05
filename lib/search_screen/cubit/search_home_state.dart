@@ -1,5 +1,5 @@
 
-
+import 'package:movies/data/model/Response/MoviesDetailsResponse.dart';
 import 'package:movies/data/model/Response/SearchResponse.dart';
 
 abstract class SearchStates {}
@@ -14,6 +14,13 @@ class SearchErrorState extends SearchStates {
 }
 
 class SearchSuccessState extends SearchStates {
-  SearchResponse searchResponse;
-  SearchSuccessState({required this.searchResponse});
+
+  List<Results> results;
+  SearchSuccessState({required this.results});
+}
+
+class SearchEmptyState extends SearchStates {
+  final String message;
+
+  SearchEmptyState({this.message = "No results found."});
 }

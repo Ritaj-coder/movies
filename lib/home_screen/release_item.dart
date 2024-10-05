@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:movies/home_screen/newrelease_details.dart';
 

@@ -9,15 +9,23 @@ import 'package:movies/home_screen/newrelease_details.dart';
 import 'package:movies/home_screen/recommended_details.dart';
 import 'package:movies/main_page/main_page.dart';
 import 'package:movies/my_theme_data.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/splash_screen.dart';
+import 'package:movies/watchlist_screen/cubit/watchlist_viewmodel.dart';
+
+import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp( MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => HomeTabCubit()),
-      BlocProvider(create: (context)=> MoviesViewModel())
+      BlocProvider(create: (context)=> MoviesViewModel()),
+      BlocProvider(create: (context)=> WatchlistViewModel(),)
     ],
       child: MyApp()));
 }
