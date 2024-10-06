@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/data/model/Response/MovieModel.dart';
 import 'package:movies/home_screen/cubit/home_tab_cubit.dart';
 import 'package:movies/home_screen/cubit/home_tab_state.dart';
 import 'package:movies/home_screen/recommended_ormorelikeitem.dart';
@@ -16,6 +17,7 @@ class Recomendedormorelikesection extends StatefulWidget {
 
 class _RecomendedormorelikesectionState extends State<Recomendedormorelikesection> {
   final ScrollController _scrollController = ScrollController();
+  HomeTabCubit cubit = HomeTabCubit();
   @override
   void initState() {
     super.initState();
@@ -32,6 +34,7 @@ class _RecomendedormorelikesectionState extends State<Recomendedormorelikesectio
     return Container(
       height: 200,
       child:BlocBuilder<HomeTabCubit, HomeTabStates>(
+        bloc: cubit..getAllTopRated(),
         builder: (context, state) {
           if (state is HomeTabNTopRatedLoadingState) {
             return Center(child: CircularProgressIndicator());
@@ -50,7 +53,20 @@ class _RecomendedormorelikesectionState extends State<Recomendedormorelikesectio
               itemCount: newTopRatedList.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return Recomendedormorelikeitem(topRated: newTopRatedList[index],);
+                // return Recomendedormorelikeitem(topRated: newTopRatedList[index],);
+                final topRated = newTopRatedList[index];
+                final movie = Movie(
+                  id: newTopRatedList[index].id.toString(),
+                  title: topRated.title!,
+                  posterUrl:
+                  'https://image.tmdb.org/t/p/w500${topRated.posterPath}',
+                  releaseYear: topRated.releaseDate!.substring(0, 4),
+                  // actors: newRelease.actors, // Assuming actors are part of NewRealeases
+                  // movieType: newRelease. ?? 'Unknown', // Assuming genre is available
+                  voteAverage:
+                  topRated.voteAverage ?? 0.0, // Provide default if null
+                );
+                return Recomendedormorelikeitem(movie: movie);
               },
             );
           }

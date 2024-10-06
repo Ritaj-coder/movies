@@ -1,6 +1,7 @@
 
 import 'package:movies/data/api_data.dart';
 import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
+import 'package:movies/data/model/Response/MovieModel.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/data/model/Response/PopularResponse.dart';
@@ -80,5 +81,35 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
     } catch (e) {
       emit(HomeTabMoreLikeErrorState(errorMessage: e.toString()));
     }
+  }
+
+  Movie getTopRatedMovie() {
+    if (topRatedList.isNotEmpty) {
+      TopRated topRatedMovie = topRatedList[0]; // Get a TopRated movie
+      return Movie(
+          id: topRatedMovie.id.toString(),
+          title: topRatedMovie.title!,
+          posterUrl:
+          topRatedMovie.posterPath!, // Adjust field names accordingly
+          releaseYear: topRatedMovie.releaseDate?.substring(0, 4) ?? 'Unknown',
+          voteAverage: topRatedMovie.voteAverage!.toDouble());
+    }
+    throw Exception("No top-rated movies available");
+  }
+
+  Movie getNewReleaseMovie() {
+    if (newRealeasesList.isNotEmpty) {
+      NewRealeases newRealeaseMovie =
+      newRealeasesList[0]; // Get a newrealease movie
+      return Movie(
+          id: newRealeaseMovie.id.toString(),
+          title: newRealeaseMovie.title!,
+          posterUrl:
+          newRealeaseMovie.posterPath!, // Adjust field names accordingly
+          releaseYear:
+          newRealeaseMovie.releaseDate?.substring(0, 4) ?? 'Unknown',
+          voteAverage: newRealeaseMovie.voteAverage!.toDouble());
+    }
+    throw Exception("No new-realease movies available");
   }
 }

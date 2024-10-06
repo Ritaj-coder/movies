@@ -100,16 +100,26 @@ class ApiManager {
   }
 
   static Future<SearchResponse> search(String title) async {
-    Uri url = Uri.https(ApiName.baseURL, EndPoints.search);
+    Uri url = Uri.https(ApiName.baseURL, EndPoints.search, {
+      'api_key': apiKey,
+      'query': title, // Pass the search query here
+      'language': 'en-US',  // Add other query parameters if needed
+    });
+
     try {
       var response = await http.get(url);
       var bodyString = response.body;
       var json = jsonDecode(bodyString);
+
+      // Check if the response is successful and contains the expected results
+      print('Search response: $json'); // Log to check if API returns expected results
       return SearchResponse.fromJson(json);
     } catch (e) {
+      print('Error occurred during search: $e');
       throw e;
     }
   }
+
 
   static Future<AddMoviesListResponse> getAllMoviesList ()async{
  Uri url = Uri.https(ApiName.baseURL,EndPoints.movieslist);

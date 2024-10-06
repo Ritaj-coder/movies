@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:movies/data/model/Response/MovieModel.dart';
 import 'package:movies/home_screen/home_details/cubit/movie_details_cubit.dart';
 import 'package:movies/home_screen/home_details/cubit/movie_details_state.dart';
 import 'package:movies/home_screen/home_details/description_movie_details.dart';
 import 'package:movies/home_screen/more_likesection.dart';
+import 'package:movies/watchlist_screen/cubit/watchlist_state.dart';
+import 'package:movies/watchlist_screen/cubit/watchlist_viewmodel.dart';
 import '../../data/model/Response/DetailsResponse.dart';
 
 class MovieDetails extends StatelessWidget {
@@ -21,6 +24,15 @@ class MovieDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final watchlistCubit = context.read<WatchlistViewModel>();
+    // Map Results to Movie
+    Movie movie = Movie(
+      id: viewModel.id.toString(), // Convert int to String if needed
+      title: viewModel.title ?? 'Unknown Title',
+      posterUrl: viewModel.poster_image ?? '',
+      releaseYear: viewModel.year ?? 'Unknown',
+      voteAverage: viewModel.vote ?? 0.0,
+    );
     return BlocBuilder<MovieDetailsViewModel, MovieDetailsStates>(
       bloc: viewModel..getMovieDetails(movieId),
       builder: (context, state) {
@@ -74,6 +86,7 @@ class MovieDetails extends StatelessWidget {
                         margin: EdgeInsets.only(top: 1),
                         child: CachedNetworkImage(
                           imageUrl: '$baseImageUrl$backDrop',
+                          // imageUrl: '$baseImageUrl${viewModel.poster_image ?? ''}',
                           placeholder: (context, url) => CircularProgressIndicator(),
                           errorWidget: (context, url, error) => Icon(Icons.error),
                           width: double.infinity,
@@ -187,6 +200,42 @@ class MovieDetails extends StatelessWidget {
                                 size: 40,
                               ),
                             ),
+                            //         child: BlocBuilder<WatchlistViewModel, WatchlistStates>(
+                            //           bloc: watchlistCubit..loadWatchlist(),
+                            // builder: (context, watchlistState) {
+                            //   if (watchlistState is WatchlistSuccessState) {
+                            //     // Check if the movie is in the watchlist
+                            //     final isInWatchlist = watchlistCubit.isMovieInWatchlist(movie, watchlistState.movies);
+                            //     return IconButton(
+                            //       onPressed: () async{
+                            //         final currentState = watchlistCubit.state;
+                            //         // Ensure the current state is WatchlistSuccessState to access the movie list
+                            //         if (currentState is WatchlistSuccessState) {
+                            //           final currentWatchlist =
+                            //               currentState.movies; // Extract the movie list
+                            //           if (isInWatchlist) {
+                            //             await watchlistCubit.removeMovieFromWatchlist(
+                            //                 movie,
+                            //                 currentWatchlist); // Pass the movie and the current watchlist
+                            //             } else {
+                            //               await watchlistCubit.addMovieToWatchlist(movie,
+                            //                   currentWatchlist); // Pass the movie and the current watchlist
+                            //             }
+                            //           }
+                            //         },
+                            //         icon: Icon(
+                            //           Icons.bookmark,
+                            //           color: isInWatchlist ? Colors.yellow : Color.fromARGB(217, 81, 79, 79),
+                            //           size: 40,
+                            //         ),
+                            //       );
+                            //     } else if (watchlistState is WatchlistLoadingState) {
+                            //       return CircularProgressIndicator(); // Show loading spinner while loading
+                            //     } else {
+                            //       return Icon(Icons.error); // Handle error state
+                            //     }
+                            //   },
+                            // ),
                           ),
                           Positioned(
                             top: 10,
@@ -199,6 +248,23 @@ class MovieDetails extends StatelessWidget {
                                 color: AppColors.whiteColor,
                               ),
                             ),
+                            //              child: BlocBuilder<WatchlistViewModel, WatchlistStates>(
+                            //               bloc: watchlistCubit..loadWatchlist(),
+                            //   builder: (context, watchlistState) {
+                            //     if (watchlistState is WatchlistSuccessState) {
+                            //       final isInWatchlist = watchlistCubit.isMovieInWatchlist(movie, watchlistState.movies);
+                            //       return Container(
+                            //         width: 11,
+                            //         height: 11,
+                            //         child: Icon(
+                            //           isInWatchlist ? Icons.check : Icons.add,
+                            //           color: AppColors.whiteColor,
+                            //         ),
+                            //       );
+                            //     }
+                            //     return Container(); // Handle other states if needed
+                            //   },
+                            // ),
                           ),
                         ],
                       ),

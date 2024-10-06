@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:movies/app_colors.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:movies/data/model/Response/MovieModel.dart';
 import 'package:movies/home_screen/cubit/home_tab_cubit.dart';
 import 'package:movies/home_screen/cubit/home_tab_state.dart';
 import 'package:movies/home_screen/new_release_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/home_screen/recommendedormorelikesection.dart';
+import 'package:movies/watchlist_screen/cubit/watchlist_viewmodel.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   HomeTabCubit cubit=HomeTabCubit();
+
+  final watchlistCubit = WatchlistViewModel();
 
   final List<String> imageUrls = [
   'assets/images/home1.png',
@@ -17,11 +26,24 @@ class HomeScreen extends StatelessWidget {
     'assets/images/home1.png',
     'assets/images/home1.png',
  ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the watchlist from Firebase when the home screen is initialized
+    // watchlistCubit.loadWatchlist(); /////
+    watchlistCubit.loadWatchlist().then((_) {
+      // Once the watchlist is loaded, trigger a rebuild of the screen
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeTabCubit,HomeTabStates>(
       bloc: cubit..getAllTopRated(),
       builder: (context,state){
+        List<Movie> movies = [];
         return Scaffold(
           body : Column(
             children: [
@@ -138,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(top: 24),
                         width:455.62 ,
-                        color: AppColors.greyColor,
+                        color: AppColors.blackColor,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -157,7 +179,7 @@ class HomeScreen extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.only(top: 24),
                               width:455.62 ,
-                              color: AppColors.greyColor,
+                              color: AppColors.blackColor,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
