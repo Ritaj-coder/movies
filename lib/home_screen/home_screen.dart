@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeTabCubit,HomeTabStates>(
-      bloc: cubit..getAllTopRated(),
+      bloc: cubit..getPopulars(),
       builder: (context,state){
         List<Movie> movies = [];
         return Scaffold(
@@ -58,12 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 217,
                     child: Swiper(
                       itemBuilder: (BuildContext context, int index) {
-                        return Image.asset(imageUrls[index], fit: BoxFit.cover);
+                        return Image.network(cubit.imageUrls[index], fit: BoxFit.cover);
                       },
-                      itemCount: imageUrls.length,
+                      itemCount: cubit.imageUrls.length,
                       autoplay: true,
-                      pagination: SwiperPagination(),
-                      control: SwiperControl(),
                     ),),
                   Container(
                     margin: EdgeInsets.fromLTRB(176, 107, 0, 0),
@@ -89,14 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(21, 118, 0, 0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4)
-                            ),
-                            child: Image.asset('assets/images/home2.png',
+                              margin: EdgeInsets.fromLTRB(21, 118, 0, 0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4)
+                              ),
                               width: 129,
                               height: 199,
-                              fit: BoxFit.cover,),
+                              child:
+                              Swiper(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Image.network(cubit.imageUrls[index], fit: BoxFit.cover);
+                                },
+                                itemCount: cubit.imageUrls.length,
+                                autoplay: true,
+                              )
                           ),
                           Positioned(
                             top: 105,
@@ -133,19 +137,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top:231),
-                            child: Text('Dora and the lost city of gold',
-                              style:TextStyle(
-                                  fontSize: 14,fontWeight: FontWeight.w400,color: AppColors.whiteColor
-                              ),),
+                            margin: EdgeInsets.only(top:235),
+                            width: 180,
+                            height: 20,
+                            child:  Swiper(
+                              itemBuilder: (BuildContext context, int index) {
+                                return Text(cubit.titles[index],
+                                    style:TextStyle(
+                                        fontSize: 14,fontWeight: FontWeight.w400,color: AppColors.whiteColor
+                                    )
+
+                                );
+                              },
+                              itemCount: cubit.imageUrls.length,
+                              autoplay: true,
+                            ),
                           ),
 
                           Container(
                             margin: EdgeInsets.only(top:2),
-                            child: Text('2019  PG-13  2h 7m',
-                              style:TextStyle(
-                                  fontSize: 10,fontWeight: FontWeight.w400,color: Color(0xffB5B4B4)
-                              ),),
+                            width: 180,
+                            height: 20,
+                            child: Swiper(
+                              itemBuilder: (BuildContext context, int index) {
+                                return Text(cubit.dates[index],
+                                    style:TextStyle(
+                                        fontSize: 10,fontWeight: FontWeight.w400,color: Color(0xffB5B4B4)
+                                    )
+
+                                );
+                              },
+                              itemCount: cubit.imageUrls.length,
+                              autoplay: true,
+                            ),
                           ),
                         ],)
                     ],

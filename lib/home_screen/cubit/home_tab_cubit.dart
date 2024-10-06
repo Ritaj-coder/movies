@@ -10,12 +10,15 @@ import 'package:movies/home_screen/cubit/home_tab_state.dart';
 
 class HomeTabCubit extends Cubit<HomeTabStates> {
   HomeTabCubit() : super(HomeInitialState());
-
+  static const String baseUrl = "https://image.tmdb.org/t/p/original";
   List<NewRealeases> newRealeasesList = [];
   List<TopRated> topRatedList = [];
   int currentPage = 1; // Start from page 1
   List<Results> moreLikeList = [];
   List <Popular> popularList=[];
+  List<String> imageUrls = [];
+  List<String> titles = [];
+  List<String>dates=[];
 
   Future<void> getAllNewRealeases() async {
     try {
@@ -60,6 +63,15 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
         emit(HomeTabPopularErrorState(errorMessage: response.statusMessage!));
       } else {
         popularList.addAll(response.results ?? []);
+        imageUrls = popularList
+            .map((popular) => baseUrl + (popular.backdropPath ?? ''))
+            .toList();
+        titles = popularList
+            .map((popular) =>(popular.title ?? ''))
+            .toList();
+        dates = popularList
+            .map((popular) =>(popular.releaseDate ?? ''))
+       .toList();
         emit(HomeTabPopularSuccessState(popularResponse: response));
       }
     } catch (e) {
@@ -82,7 +94,6 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
       emit(HomeTabMoreLikeErrorState(errorMessage: e.toString()));
     }
   }
-
   Movie getTopRatedMovie() {
     if (topRatedList.isNotEmpty) {
       TopRated topRatedMovie = topRatedList[0]; // Get a TopRated movie
@@ -96,7 +107,6 @@ class HomeTabCubit extends Cubit<HomeTabStates> {
     }
     throw Exception("No top-rated movies available");
   }
-
   Movie getNewReleaseMovie() {
     if (newRealeasesList.isNotEmpty) {
       NewRealeases newRealeaseMovie =
