@@ -13,4 +13,5 @@ class EndPoints {
   static String moreLike(int movieID) {
     return '/3/movie/$movieID/similar';
     }
+  static const String popular='/3/movie/popular';
   }

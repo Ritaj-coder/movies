@@ -47,6 +47,7 @@ dev_dependencies:
   cached_network_image: ^3.3.1
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
+  flutter_swiper_null_safety: ^1.0.2
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

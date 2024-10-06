@@ -1,6 +1,7 @@
 
 import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
+import 'package:movies/data/model/Response/PopularResponse.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
 
 abstract class HomeTabStates {}
@@ -39,4 +40,13 @@ class HomeTabMoreLikeErrorState extends HomeTabStates {
 class HomeTabMoreLikeSuccessState extends HomeTabStates {
   MoreLikerResponse moreLikerResponse;
   HomeTabMoreLikeSuccessState({required this.moreLikerResponse});
+}
+class HomeTabPopularLoadingState extends HomeTabStates {}
+class HomeTabPopularErrorState extends HomeTabStates {
+  String errorMessage;
+  HomeTabPopularErrorState({required this.errorMessage});
+}
+class HomeTabPopularSuccessState extends HomeTabStates {
+  PopularResponse popularResponse;
+  HomeTabPopularSuccessState({required this.popularResponse});
 }

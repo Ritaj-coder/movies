@@ -8,6 +8,7 @@ import 'package:movies/data/model/Response/DetailsResponse.dart';
 import 'package:movies/data/model/Response/MoreLikeThisResponse.dart';
 import 'package:movies/data/model/Response/MoviesDetailsResponse.dart';
 import 'package:movies/data/model/Response/New_ReleaseResponse.dart';
+import 'package:movies/data/model/Response/PopularResponse.dart';
 import 'package:movies/data/model/Response/SearchResponse.dart';
 import 'package:movies/data/model/Response/TopRatedResponse.dart';
 
@@ -74,6 +75,30 @@ class ApiManager {
     }
   }
 
+  static Future<PopularResponse> getPopulars() async {
+    Uri url = Uri.https(
+      ApiName.baseURL,
+      EndPoints.popular,
+      {
+        'language': 'en-US',
+        'page': '1',
+      },
+    );
+    Map<String, String> headers = {
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTQ2NmVkYjViMDYzNWQ1ZDBkNzAwNjI2OGNhOGM2YyIsIm5iZiI6MTcyNjYwMzg4Mi40ODkxNzIsInN1YiI6IjY2ZTlkODg0NWMwNTE5YTIzNGQzMGE0OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qHGfuhfJaExeUxfqzB_QnUphv0NFJoHE_dQ6Jof_Rwo',
+      'Accept': 'application/json',
+    };
+    try {
+      var response = await http.get(url,headers:headers );
+      var bodyString = response.body;
+      var json = jsonDecode(bodyString);
+      return PopularResponse.fromJson(json);
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<SearchResponse> search(String title) async {
     Uri url = Uri.https(ApiName.baseURL, EndPoints.search);
     try {
@@ -85,7 +110,6 @@ class ApiManager {
       throw e;
     }
   }
-
 
   static Future<AddMoviesListResponse> getAllMoviesList ()async{
  Uri url = Uri.https(ApiName.baseURL,EndPoints.movieslist);
